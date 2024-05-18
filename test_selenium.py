@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 import chromedriver_binary
 import time
 from selenium.webdriver.common.by import By
+from openpyxl import Workbook
 
 option = Options()
 option.add_argument("--headless")
@@ -54,3 +55,18 @@ count = page_text.count(target_string)
 
 # 結果を出力
 print(f"ページ内で '{target_string}' が {count} 回見つかりました。")
+
+
+wb = Workbook()
+
+# アクティブなワークシートを取得
+ws = wb.active
+
+# ページ内で '96猫' が何回見つかったかをExcelに書き込む
+ws['A1'] = '検索キーワード'
+ws['B1'] = '出現回数'
+ws['A2'] = target_string
+ws['B2'] = count
+
+# ファイルを保存
+wb.save("search_results.xlsx")
